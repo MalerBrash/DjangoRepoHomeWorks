@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.conf import settings
+from django.shortcuts import render, reverse
 
 DATA = {
     'omlet': {
@@ -18,13 +19,43 @@ DATA = {
     },
     # можете добавить свои рецепты ;)
 }
+template_name = 'calculator/recipes.html'
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+def prepare_context(request, name_dish):
+    page = {
+        'Главную страницу': reverse('home')
+    }
+
+    service = request.GET.get('servings')
+    if service:
+        context = {
+            'recipe': {key: round(val * int(service), 1) for key, val in DATA[name_dish].items()},
+            'page': page
+        }
+    else:
+        context = {
+            'recipe': DATA[name_dish],
+            'page': page
+        }
+    return context
+
+def home_view(request):
+    pages = {
+        'Главная страница': reverse('home'),
+        'Показать рецепт классического омлета': reverse('omlet'),
+        'Показать рецепт итальянской пасты': reverse('pasta'),
+        'Показать рецепт идеального бутерброда': reverse('buter')
+    }
+    context = {
+        'pages': pages
+    }
+    return render(request, 'calculator/index.html', context)
+
+def omlet_view(request):
+    return render(request, template_name, prepare_context(request, 'omlet'))
+
+def pasta_view(request):
+    return render(request, template_name, prepare_context(request, 'pasta'))
+
+def buter_view(request):
+    return render(request, template_name, prepare_context(request, 'buter'))
