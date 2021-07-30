@@ -5,7 +5,7 @@
 <head>
     <!-- Basic Page Needs -->
     <meta charset="utf-8">
-    <title>Title</title>
+    <title>Stations</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -41,13 +41,14 @@
             </tbody>
         </table>
 
-        {% if page.has_previous %}
-            <a class="button button-primary" href="?page={{ page.previous_page_number }}">⟵</a>
+        {% if pages.page_has_prev %}<a class="button button-primary" href="?page={{ pages.previous_page_number }}">⟵</a>{% endif %}
+
+        <a class="button disabled" href="">{{ pages.number }}</a>
+
+        {% if pages.page_has_next %}
+            <a class="button button-primary" href="?page={{ pages.next_page_number }}">⟶</a>
         {% endif %}
-        <a class="button disabled" href="">{{ page.number }}</a>
-        {% if page.has_next %}
-            <a class="button button-primary" href="?page={{ page.next_page_number }}">⟶</a>
-        {% endif %}
+        <a class="button disabled" href="">из {{ pages.num_pages }} страниц</a>
     </div>
 </div>
 </body>
