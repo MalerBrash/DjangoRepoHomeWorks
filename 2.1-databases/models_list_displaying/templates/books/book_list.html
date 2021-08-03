@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Сортировка по дате{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1><a href="/books">Каталог</a></h1>
+        </div>
+
+        <div class="row">
+           {% if books %}
+               {% for book in books %}
+                    <div class="book col-md-4">
+                        <h2><a href="/books/{{ book.pub_date|date:"Y-m-d" }}/">{{ book.name }}</a></h2>
+                        <p>{{book.author}}</p>
+                        <p>Дата публикации: {{ book.pub_date|date:"Y-m-d" }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+            <div>
+                <h1>Ой, нет такой публикации:(</h1>
+            </div>
+            {% endif %}
+        </div>
+        <div>
+
+        {% if pagination.prev_page %}
+            <a class="button button-primary" href="/books/{{ pagination.prev_page|date:"Y-m-d" }}/"><{{ pagination.prev_page|date:"Y-m-d" }}</a>
+        {% endif %}
+            <a href="#">  |  </a>
+        {% if pagination.next_page %}
+            <a class="button button-primary" href="/books/{{ pagination.next_page|date:"Y-m-d" }}/">{{ pagination.next_page|date:"Y-m-d" }}></a>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
