@@ -47,7 +47,7 @@
 
     Любой вариант допустим в рамках данного задания.
 
-- С примерами запросов к API вы можете ознакомиться в [файле requests-examples.http](./requests-examples.http)
+- С примерами запросов к API вы можете ознакомиться в [файле requests-examples.http](requests-examples.py)
 
 ## Подсказки
 
